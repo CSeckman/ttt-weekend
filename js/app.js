@@ -1,14 +1,4 @@
 /*-------------------------------- Constants --------------------------------*/
-// const winningCombos = [
-//   [0,1,2],
-//   [3,4,5],
-//   [6,7,8],
-//   [0,3,6],
-//   [1,4,7],
-//   [2,5,8],
-//   [0,4,9],
-//   [2,4,6]
-// ];
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -32,6 +22,7 @@ init()
 
 function init(){
   messageEl.innerText = "Player 1, pick a square!"
+  messageEl.style.color = 'blue'
   boardState = [null, null, null, null, null, null, null, null, null]
   squaresEl.innerText = ''
   isWinner = null
@@ -40,17 +31,19 @@ function init(){
 }
 
 //renders responsibility is to take that board state and render that to the screen
-function render(boardState){
+function render(boardState) {
   //first half of render is rendering the colors and letter to the div based on the squares idx
   boardState.forEach((square, idx) => {
     let divColor
     let divLetter
     if (square === 1){
-      divColor = 'purple'
+      divColor = 'blue'
       divLetter = 'X'
+      messageEl.style.color = 'purple'
     } else if (square === -1){
-      divColor = 'Blue'
+      divColor = 'purple'
       divLetter = 'O'
+      messageEl.style.color = 'blue'
     } else if (square === null) {
       divColor = 'white'
       divLetter = ''
@@ -63,10 +56,10 @@ function render(boardState){
     messageEl.innerText = `It is Player 1's Turn, place your X in any open square!`
   } else if (!isWinner && playerTurn === -1){
     messageEl.innerText = `It is Player 2's Turn, place your O in any open square!`
+  } else if (isWinner === "T") {
+    messageEl.innerText = `Cat's game!!! It's a Tie!!`
   } else if (isWinner) {
     messageEl.innerText = `Congratulations! ${isWinner === 1 ? "Player 1, X's" : "Player 2, O's"} wins!!!`
-  } else if (isWinner = "T") {
-    messageEl.innerText = `Cat's game!!! It's a Tie!!`
   }
   
 }
@@ -99,7 +92,11 @@ function getWinner() {
   if (Math.abs(boardState[2] + boardState[5] + boardState[8]) === 3) return boardState[2];
   if (Math.abs(boardState[0] + boardState[4] + boardState[8]) === 3) return boardState[0];
   if (Math.abs(boardState[2] + boardState[4] + boardState[6]) === 3) return boardState[2];
+  console.log(boardState)
   //now check if there is a tie or null(game not finished/nowinner)
-  boardState.includes(null) ? null : isWinner= "T"   
-  console.log(isWinner)
+  if (boardState.includes(null)) {
+    return null 
+  } else {
+    return "T"}
+
 }
