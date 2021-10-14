@@ -101,4 +101,5 @@ function getWinner() {
   if (Math.abs(boardState[2] + boardState[4] + boardState[6]) === 3) return boardState[2];
   //now check if there is a tie or null(game not finished/nowinner)
   boardState.includes(null) ? null : isWinner= "T"   
+  console.log(isWinner)
 }
