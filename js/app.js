@@ -27,7 +27,7 @@ function init(){
   squaresEl.innerText = ''
   isWinner = null
   playerTurn = 1
-  render()
+  render(boardState)
 }
 
 //renders responsibility is to take that board state and render that to the screen
