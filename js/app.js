@@ -1,18 +1,18 @@
 /*-------------------------------- Constants --------------------------------*/
-const winningCombos = [
-  [0,1,2],
-  [3,4,5],
-  [6,7,8],
-  [0,3,6],
-  [1,4,7],
-  [2,5,8],
-  [0,4,9],
-  [2,4,6]
-];
+// const winningCombos = [
+//   [0,1,2],
+//   [3,4,5],
+//   [6,7,8],
+//   [0,3,6],
+//   [1,4,7],
+//   [2,5,8],
+//   [0,4,9],
+//   [2,4,6]
+// ];
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let boardState = [null, 1, null, null, null, null, null, null, null]
+let boardState
 let playerTurn 
 let isWinner
 
@@ -23,9 +23,7 @@ const resetBtn = document.getElementById('reset')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-squaresEl.forEach((square) => {
-  square.addEventListener('click', handleClick)
-})
+squaresEl.forEach(square => square.addEventListener('click', handleClick))
 
 resetBtn.addEventListener('click', init)
 /*-------------------------------- Functions --------------------------------*/
@@ -35,29 +33,29 @@ init()
 function init(){
   messageEl.innerText = "Player 1, pick a square!"
   boardState = [null, null, null, null, null, null, null, null, null]
-  squaresEl.innerHTML = ''
+  squaresEl.innerText = ''
   isWinner = null
   playerTurn = 1
   render()
 }
 
 //renders responsibility is to take that board state and render that to the screen
-function render(array){
+function render(boardState){
   //first half of render is rendering the colors and letter to the div based on the squares idx
-  boardState.forEach((div, idx) => {
+  boardState.forEach((square, idx) => {
     let divColor
     let divLetter
-    if (div === 1){
+    if (square === 1){
       divColor = 'purple'
       divLetter = 'X'
-    } else if (div === -1){
-      divColor = 'teal'
-      divLetter = 'L'
-    } else if (div === null) {
+    } else if (square === -1){
+      divColor = 'Blue'
+      divLetter = 'O'
+    } else if (square === null) {
       divColor = 'white'
       divLetter = ''
     }
-    squaresEl[idx].getElementsByClassName.background = divColor
+    squaresEl[idx].style.background = divColor
     squaresEl[idx].innerText = divLetter
   });
   //second half of render is going to be in charge of rendering our messages for whose turn or winner!
@@ -65,26 +63,30 @@ function render(array){
     messageEl.innerText = `It is Player 1's Turn, place your X in any open square!`
   } else if (!isWinner && playerTurn === -1){
     messageEl.innerText = `It is Player 2's Turn, place your O in any open square!`
-  } else if (isWinner === "T") {
-    messageEl.innerText = `Cat's game!!! It's a Tie!!`
-  } else {
+  } else if (isWinner) {
     messageEl.innerText = `Congratulations! ${isWinner === 1 ? "Player 1, X's" : "Player 2, O's"} wins!!!`
+  } else if (isWinner = "T") {
+    messageEl.innerText = `Cat's game!!! It's a Tie!!`
   }
   
 }
 
 function handleClick(evt){
   //assigning value to the board state as an integer
-  let squareIndex = parseInt(evt.target.id.replace('sq', ''))
+  let squareIndex = parseInt(evt.target.id.slice(2))
+  console.log(squareIndex)
   if (boardState[squareIndex] || isWinner) {
     //'return' alone in a function shortcircuts so that the square can not be clicked, disables the game 
     return
   }
   boardState[squareIndex] = playerTurn
+  console.log(boardState)
   //switch players by taking the value of player turn *-1 and then resetting that value to player turn
   playerTurn *= -1
+  console.log(playerTurn)
   //to return the indicator for render, run get winner
   isWinner = getWinner()
+  render(boardState)
 }
 
 function getWinner() {
@@ -98,5 +100,5 @@ function getWinner() {
   if (Math.abs(boardState[0] + boardState[4] + boardState[8]) === 3) return boardState[0];
   if (Math.abs(boardState[2] + boardState[4] + boardState[6]) === 3) return boardState[2];
   //now check if there is a tie or null(game not finished/nowinner)
-  boardState.includes(null) ? null : 'T'    
+  boardState.includes(null) ? null : isWinner= "T"   
 }
