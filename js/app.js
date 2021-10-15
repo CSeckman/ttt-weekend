@@ -63,7 +63,7 @@ function render(boardState) {
   } else if (isWinner === "T") {
     messageEl.innerText = `Cat's game!!! It's a Tie!!`
   } else if (isWinner) {
-    messageEl.innerText = `Congratulations ${isWinner === 1 ? "Player 1! X's" : "Player 2! O's"} wins!!!`
+    messageEl.innerText = `Congratulations ${isWinner === 1 ? "Player 1! X's" : "Player 2! O's"} win!!!`
   }
   
 }
