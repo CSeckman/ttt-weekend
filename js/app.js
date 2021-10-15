@@ -39,15 +39,19 @@ function render(boardState) {
     if (square === 1){
       divColor = 'blue'
       divLetter = 'X'
-      messageEl.style.color = 'purple'
-    } else if (square === -1){
+      messageEl.style.color = 'purple'} 
+    if (square === -1){
       divColor = 'purple'
       divLetter = 'O'
-      messageEl.style.color = 'blue'
-    } else if (square === null) {
+      messageEl.style.color = 'blue'}
+    if (square === null) {
       divColor = 'white'
-      divLetter = ''
-    }
+      divLetter = ''}
+    if (isWinner === -1){
+      messageEl.style.color = 'purple'}
+    if (isWinner === 1){
+      messageEl.style.color = 'blue'}
+
     squaresEl[idx].style.background = divColor
     squaresEl[idx].innerText = divLetter
   });
